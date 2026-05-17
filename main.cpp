@@ -150,7 +150,7 @@ double DoubleType::multiply( double lhs, double rhs )
 
 double DoubleType::divide( double lhs, double rhs )
 {
-     if (rhs == 0)
+     if (rhs == 0.0)
      {
         std::cout << "warning, floating point division by zero returns 'inf' !\n";
     }
@@ -182,7 +182,7 @@ int IntType::multiply( int lhs, int rhs )
 
 int IntType::divide( int lhs, int rhs )
 {
-     if (rhs == 0.0)
+     if (rhs == 0)
      {
         std::cout << "error, integer division by zero will crash the program!\n";
         std::cout << "returning lhs\n";
