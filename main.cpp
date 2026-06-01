@@ -189,6 +189,9 @@ int main()
 
 struct FloatType
 {
+    FloatType(float ft);
+    ~FloatType();
+    
     float add( float lhs, float rhs );
     float subtract( float lhs, float rhs );
     float multiply( float lhs, float rhs );
@@ -196,6 +199,15 @@ struct FloatType
     
     float* value = nullptr;
 };
+
+FloatType::FloatType(float ft) : value(new float(ft))
+{
+}
+
+FloatType::~FloatType()
+{
+    delete value;
+}
 
 float FloatType::add( float lhs, float rhs )
 {
@@ -223,6 +235,9 @@ float FloatType::divide( float lhs, float rhs )
 
 struct DoubleType
 {
+    DoubleType(double dt);
+    ~DoubleType();
+
     double add( double lhs, double rhs );
     double subtract( double lhs, double rhs );
     double multiply( double lhs, double rhs );
@@ -230,6 +245,15 @@ struct DoubleType
     
     double* value = nullptr;
 };
+
+DoubleType::DoubleType(double dt) : value(new double(dt))
+{
+}
+
+DoubleType::~DoubleType()
+{
+    delete value;
+}
 
 double DoubleType::add( double lhs, double rhs )
 {
@@ -257,6 +281,9 @@ double DoubleType::divide( double lhs, double rhs )
 
 struct IntType
 {
+    IntType(int it);
+    ~IntType();
+    
     int add( int lhs, int rhs );
     int subtract( int lhs, int rhs );
     int multiply( int lhs, int rhs );
@@ -264,6 +291,15 @@ struct IntType
     
     int* value = nullptr;
 };
+
+IntType::IntType(int it) : value(new int(it))
+{
+}
+
+IntType::~IntType()
+{
+    delete value;
+}
 
 int IntType::add( int lhs, int rhs )
 {
