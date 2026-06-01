@@ -111,11 +111,6 @@ good to go!
 
 */
 
-#include <iostream>
-
-
-
-
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
@@ -134,11 +129,25 @@ good to go!
 
 struct FloatType
 {
+    FloatType(float ft);
+    ~FloatType();
+
     float add( float lhs, float rhs );
     float subtract( float lhs, float rhs );
     float multiply( float lhs, float rhs );
     float divide( float lhs, float rhs );
+    
+    float* value = nullptr;
 };
+
+FloatType::FloatType(float ft) : value(new float(ft))
+{
+}
+
+FloatType::~FloatType()
+{
+    delete value;
+}
 
 float FloatType::add( float lhs, float rhs )
 {
@@ -166,11 +175,25 @@ float FloatType::divide( float lhs, float rhs )
 
 struct DoubleType
 {
+    DoubleType(double dt);
+    ~DoubleType();
+
     double add( double lhs, double rhs );
     double subtract( double lhs, double rhs );
     double multiply( double lhs, double rhs );
     double divide( double lhs, double rhs );
+    
+    double* value = nullptr;
 };
+
+DoubleType::DoubleType(double dt) : value(new double(dt))
+{
+}
+
+DoubleType::~DoubleType()
+{
+    delete value;
+}
 
 double DoubleType::add( double lhs, double rhs )
 {
@@ -198,11 +221,25 @@ double DoubleType::divide( double lhs, double rhs )
 
 struct IntType
 {
+    IntType(int it);
+    ~IntType();
+    
     int add( int lhs, int rhs );
     int subtract( int lhs, int rhs );
     int multiply( int lhs, int rhs );
     int divide( int lhs, int rhs );
+    
+    int* value = nullptr;
 };
+
+IntType::IntType(int it) : value(new int(it))
+{
+}
+
+IntType::~IntType()
+{
+    delete value;
+}
 
 int IntType::add( int lhs, int rhs )
 {
@@ -240,7 +277,7 @@ int main()
     FloatType ft ( 2.0f );
     DoubleType dt ( 2 );
     IntType it ( 2 ) ;
-
+/*
     std::cout << "FloatType add result=" << ft.add( 2.0f ).value << std::endl;
     std::cout << "FloatType subtract result=" << ft.subtract( 2.0f ).value << std::endl;
     std::cout << "FloatType multiply result=" << ft.multiply( 2.0f ).value << std::endl;
@@ -281,7 +318,7 @@ int main()
     std::cout << "New value of dt = dt / 0 = " << dt.divide(0).value << std::endl;
 
     std::cout << "---------------------\n" << std::endl;
-
+*/
     std::cout << "good to go!\n";
 
     return 0;
