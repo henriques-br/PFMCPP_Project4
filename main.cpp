@@ -149,28 +149,32 @@ FloatType::~FloatType()
     delete value;
 }
 
-float FloatType::add( float lhs, float rhs )
+FloatType& FloatType::add( float ft )
 {
-    return lhs + rhs;
+    *value += ft;
+    return *this;
 }
 
-float FloatType::subtract( float lhs, float rhs )
+FloatType& FloatType::subtract( float ft )
 {
-    return lhs - rhs;
+    *value -= ft;
+    return *this;
 }
 
-float FloatType::multiply( float lhs, float rhs )
+FloatType& FloatType::multiply( float ft )
 {
-    return lhs * rhs;
+    *value *= ft;
+    return *this;
 }
 
-float FloatType::divide( float lhs, float rhs )
+FloatType& FloatType::divide( float ft )
 {
-     if (rhs == 0.f)
+     if (ft == 0.f)
      {
-        std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+        std::cout << "warning: floating point division by zero!\n";
     }
-    return lhs / rhs;
+    *value /= ft;
+    return *this;
 }
 
 struct DoubleType
