@@ -132,10 +132,10 @@ struct FloatType
     FloatType(float ft);
     ~FloatType();
 
-    float add( float lhs, float rhs );
-    float subtract( float lhs, float rhs );
-    float multiply( float lhs, float rhs );
-    float divide( float lhs, float rhs );
+    FloatType& add( float ft );
+    FloatType& subtract( float ft );
+    FloatType& multiply( float ft );
+    FloatType& divide( float ft );
     
     float* value = nullptr;
 };
