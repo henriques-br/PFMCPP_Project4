@@ -245,31 +245,36 @@ IntType::~IntType()
     delete value;
 }
 
-int IntType::add( int lhs, int rhs )
+
+IntType& IntType::add( int it )
 {
-    return lhs + rhs;
+    *value += it;
+    return *this;
 }
 
-int IntType::subtract( int lhs, int rhs )
+IntType& IntType::subtract( int it )
 {
-    return lhs - rhs;
+    *value -= it;
+    return *this;
 }
 
-int IntType::multiply( int lhs, int rhs )
+IntType& IntType::multiply( int it )
 {
-    return lhs * rhs;
+    *value *= it;
+    return *this;
 }
 
-int IntType::divide( int lhs, int rhs )
+IntType& IntType::divide( int it )
 {
-     if (rhs == 0)
-     {
-        std::cout << "error, integer division by zero will crash the program!\n";
-        std::cout << "returning lhs\n";
- 
-        return lhs;
+    if (it == 0)
+    {
+        std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl;
     }
-    return lhs / rhs;
+    else
+    {
+        *value /= it;
+    }
+    return *this;
 }
 
 int main()
