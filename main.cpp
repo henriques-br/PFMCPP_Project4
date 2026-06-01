@@ -199,28 +199,32 @@ DoubleType::~DoubleType()
     delete value;
 }
 
-double DoubleType::add( double lhs, double rhs )
+DoubleType& DoubleType::add( double dt )
 {
-    return lhs + rhs;
+    *value += dt;
+    return *this;
 }
 
-double DoubleType::subtract( double lhs, double rhs )
+DoubleType& DoubleType::subtract( double dt )
 {
-    return lhs - rhs;
+    *value -= dt;
+    return *this;
 }
 
-double DoubleType::multiply( double lhs, double rhs )
+DoubleType& DoubleType::multiply( double dt )
 {
-    return lhs * rhs;
+    *value *= dt;
+    return *this;
 }
 
-double DoubleType::divide( double lhs, double rhs )
+DoubleType& DoubleType::divide( double dt )
 {
-     if (rhs == 0.0)
-     {
-        std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+    if (dt == 0.0)
+    {
+        std::cout << "warning: floating point division by zero!\n";
     }
-    return lhs / rhs;
+    *value /= dt;
+    return *this;
 }
 
 struct IntType
