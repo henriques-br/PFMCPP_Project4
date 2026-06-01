@@ -237,6 +237,16 @@ struct DoubleType
     DoubleType& multiply( double dt );
     DoubleType& divide( double dt );
     
+    DoubleType& add( const FloatType& ft );
+    DoubleType& subtract( const FloatType& ft );
+    DoubleType& multiply( const FloatType& ft );
+    DoubleType& divide( const FloatType& ft );
+
+    DoubleType& add( const IntType& it );
+    DoubleType& subtract( const IntType& it );
+    DoubleType& multiply( const IntType& it );
+    DoubleType& divide( const IntType& it );
+    
     double* value = nullptr;
 };
 
