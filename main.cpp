@@ -137,6 +137,16 @@ struct FloatType
     FloatType& multiply( float ft );
     FloatType& divide( float ft );
     
+    FloatType& add( const DoubleType& dt );
+    FloatType& subtract( const DoubleType& dt );
+    FloatType& multiply( const DoubleType& dt );
+    FloatType& divide( const DoubleType& dt );
+
+    FloatType& add( const IntType& it );
+    FloatType& subtract( const IntType& it );
+    FloatType& multiply( const IntType& it );
+    FloatType& divide( const IntType& it );
+    
     float* value = nullptr;
 };
 
