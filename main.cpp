@@ -193,6 +193,8 @@ struct FloatType
     float subtract( float lhs, float rhs );
     float multiply( float lhs, float rhs );
     float divide( float lhs, float rhs );
+    
+    float* value = nullptr;
 };
 
 float FloatType::add( float lhs, float rhs )
@@ -225,6 +227,8 @@ struct DoubleType
     double subtract( double lhs, double rhs );
     double multiply( double lhs, double rhs );
     double divide( double lhs, double rhs );
+    
+    double* value = nullptr;
 };
 
 double DoubleType::add( double lhs, double rhs )
@@ -257,6 +261,8 @@ struct IntType
     int subtract( int lhs, int rhs );
     int multiply( int lhs, int rhs );
     int divide( int lhs, int rhs );
+    
+    int* value = nullptr;
 };
 
 int IntType::add( int lhs, int rhs )
