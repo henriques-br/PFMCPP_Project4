@@ -228,10 +228,10 @@ struct IntType
     IntType(int it);
     ~IntType();
     
-    int add( int lhs, int rhs );
-    int subtract( int lhs, int rhs );
-    int multiply( int lhs, int rhs );
-    int divide( int lhs, int rhs );
+    IntType& add( int it );
+    IntType& subtract( int it );
+    IntType& multiply( int it );
+    IntType& divide( int it );
     
     int* value = nullptr;
 };
