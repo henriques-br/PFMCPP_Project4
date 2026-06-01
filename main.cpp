@@ -187,6 +187,46 @@ FloatType& FloatType::divide( float ft )
     return *this;
 }
 
+FloatType& FloatType::add(const DoubleType& dt)
+{
+    return add(*dt.value);
+}
+
+FloatType& FloatType::subtract( const DoubleType& dt )
+{
+    return subtract(*dt.value);
+}
+
+FloatType& FloatType::multiply( const DoubleType& dt )
+{
+    return multiply(*dt.value);
+}
+
+FloatType& FloatType::divide( const DoubleType& dt )
+{
+    return divide(*dt.value);
+}
+
+FloatType& FloatType::add( const IntType& it )
+{
+    return add(*it.value);
+}
+
+FloatType& FloatType::subtract( const IntType& it )
+{
+    return subtract(*it.value);
+}
+
+FloatType& FloatType::multiply( const IntType& it )
+{
+    return multiply(*it.value);
+}
+
+FloatType& FloatType::divide( const IntType& it )
+{
+    return divide(*it.value);
+}
+
 struct DoubleType
 {
     DoubleType(double dt);
