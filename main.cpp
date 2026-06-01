@@ -336,6 +336,16 @@ struct IntType
     IntType& subtract( int it );
     IntType& multiply( int it );
     IntType& divide( int it );
+
+    IntType& add(const DoubleType& dt);
+    IntType& subtract(const DoubleType& dt);
+    IntType& multiply(const DoubleType& dt);
+    IntType& divide(const DoubleType& dt);
+
+    IntType& add(const FloatType& ft);
+    IntType& subtract(const FloatType& ft);
+    IntType& multiply(const FloatType& ft);
+    IntType& divide(const FloatType& ft);
     
     int* value = nullptr;
 };
