@@ -13,15 +13,21 @@ New/This/Pointers/References conclusion
      on the lines below it, write a struct named 'HeapA' that correctly shows how to own an instance of 'A' 
          on the heap without leaking, without using smart pointers. 
  */
+struct A {};
 
+struct HeapA
+{
+    HeapA() : value(new A{})
+    {
+        
+    }
+    ~HeapA()
+    {
+        delete value;
+    }
 
-
-
-
-
-
-
-
+    A* value;
+};
 
 
  /*
