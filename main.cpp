@@ -391,6 +391,46 @@ IntType& IntType::divide( int it )
     return *this;
 }
 
+IntType& IntType::add(const DoubleType& dt)
+{
+    return add(*dt.value);
+}
+
+IntType& IntType::subtract(const DoubleType& dt)
+{
+    return subtract(*dt.value);
+}
+
+IntType& IntType::multiply(const DoubleType& dt)
+{
+    return multiply(*dt.value);
+}
+
+IntType& IntType::divide(const DoubleType& dt)
+{
+    return divide(*dt.value);
+}
+
+IntType& IntType::add(const FloatType& ft)
+{
+    return add(*ft.value);
+}
+
+IntType& IntType::subtract(const FloatType& ft)
+{
+    return subtract(*ft.value);
+}
+
+IntType& IntType::multiply(const FloatType& ft)
+{
+    return multiply(*ft.value);
+}
+
+IntType& IntType::divide(const FloatType& ft)
+{
+    return divide(*ft.value);
+}
+
 int main()
 {
     //testing instruction 0
