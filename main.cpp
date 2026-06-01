@@ -182,10 +182,10 @@ struct DoubleType
     DoubleType(double dt);
     ~DoubleType();
 
-    double add( double lhs, double rhs );
-    double subtract( double lhs, double rhs );
-    double multiply( double lhs, double rhs );
-    double divide( double lhs, double rhs );
+    DoubleType& add( double dt );
+    DoubleType& subtract( double dt );
+    DoubleType& multiply( double dt );
+    DoubleType& divide( double dt );
     
     double* value = nullptr;
 };
