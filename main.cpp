@@ -157,7 +157,7 @@ struct FloatType
     FloatType& divide( const IntType& it );
 */  
     operator float() const;
-
+private:
     float* value = nullptr;
 };
 
@@ -224,7 +224,7 @@ struct DoubleType
     DoubleType& divide( const IntType& it );
 */
     operator double() const;
-
+private:
     double* value = nullptr;
 };
 
@@ -291,7 +291,7 @@ struct IntType
     IntType& divide(const FloatType& ft);
 */  
     operator int() const;   
-    
+private:    
     int* value = nullptr;
 };
 
