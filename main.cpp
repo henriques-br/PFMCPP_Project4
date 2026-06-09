@@ -514,7 +514,7 @@ int main()
     std::cout << "New value of dt = dt / 0 = " << dt.divide(0) << std::endl;
 
     std::cout << "---------------------\n" << std::endl;
-
+    part3();
     std::cout << "good to go!\n";
 
     return 0;
