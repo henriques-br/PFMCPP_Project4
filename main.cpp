@@ -155,7 +155,9 @@ struct FloatType
     FloatType& subtract( const IntType& it );
     FloatType& multiply( const IntType& it );
     FloatType& divide( const IntType& it );
-*/    
+*/  
+    operator float() const;
+
     float* value = nullptr;
 };
 
@@ -166,6 +168,11 @@ FloatType::FloatType(float ft) : value(new float(ft))
 FloatType::~FloatType()
 {
     delete value;
+}
+
+FloatType::operator float() const
+{
+    return *value;
 }
 
 FloatType& FloatType::add( float ft )
@@ -216,6 +223,8 @@ struct DoubleType
     DoubleType& multiply( const IntType& it );
     DoubleType& divide( const IntType& it );
 */
+    operator double() const;
+
     double* value = nullptr;
 };
 
@@ -226,6 +235,11 @@ DoubleType::DoubleType(double dt) : value(new double(dt))
 DoubleType::~DoubleType()
 {
     delete value;
+}
+
+DoubleType::operator double() const 
+{ 
+    return *value; 
 }
 
 DoubleType& DoubleType::add( double dt )
@@ -275,7 +289,9 @@ struct IntType
     IntType& subtract(const FloatType& ft);
     IntType& multiply(const FloatType& ft);
     IntType& divide(const FloatType& ft);
-*/    
+*/  
+    operator int() const;   
+    
     int* value = nullptr;
 };
 
@@ -286,6 +302,11 @@ IntType::IntType(int it) : value(new int(it))
 IntType::~IntType()
 {
     delete value;
+}
+
+IntType::operator int() const 
+{ 
+    return *value; 
 }
 
 IntType& IntType::add( int it )
