@@ -290,9 +290,15 @@ struct FloatType
     FloatType& multiply( float ft );
     FloatType& divide( float ft );
  
+    FloatType& pow(float arg);
+    FloatType& pow(const FloatType& arg);
+    FloatType& pow(const IntType& arg);
+    FloatType& pow(const DoubleType& arg);
+
     operator float() const;
 private:
     float* value = nullptr;
+    FloatType& powInternal(float arg);
 };
 
 FloatType::FloatType(float ft) : value(new float(ft))
@@ -451,6 +457,32 @@ IntType& IntType::divide( int it )
     {
         *value /= it;
     }
+    return *this;
+}
+
+FloatType& FloatType::pow(float arg)
+{
+    return powInternal(arg);
+}
+
+FloatType& FloatType::pow(const FloatType& arg)
+{
+    return powInternal(arg);
+}
+
+FloatType& FloatType::pow(const IntType& arg)
+{
+    return powInternal(static_cast<float>(arg));
+}
+
+FloatType& FloatType::pow(const DoubleType& arg)
+{
+    return powInternal(static_cast<float>(arg));
+}
+
+FloatType& FloatType::powInternal(float exp)
+{
+    *value = std::pow(*value, exp);
     return *this;
 }
 
