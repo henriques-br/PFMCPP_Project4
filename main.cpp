@@ -66,7 +66,7 @@ struct Point
 private:
     float x{0}, y{0};
 };
-
+/*
 void part4()
 {
     // ------------------------------------------------------------
@@ -150,7 +150,7 @@ void part4()
     p3.toString();   
     std::cout << "---------------------\n" << std::endl;
 }
-
+*/
 /*
 your program should generate the following output EXACTLY.
 This includes the warnings.  
@@ -277,6 +277,7 @@ struct HeapA
  */
 
 #include <iostream>
+#include <cmath> 
 struct DoubleType;
 struct IntType;
 struct FloatType
@@ -453,7 +454,6 @@ IntType& IntType::divide( int it )
     return *this;
 }
 
-#include <iostream>
 void part3()
 {
     FloatType ft( 5.5f );
