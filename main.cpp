@@ -570,7 +570,7 @@ void part4()
     std::cout << "pow(it1, ftExp) = " << it1 << "^" << ftExp << " = " << it1.pow(ftExp)  << std::endl;    
     std::cout << "pow(it1, dtExp) = " << it1 << "^" << dtExp << " = " << it1.pow(dtExp)  << std::endl;    
     std::cout << "===============================\n" << std::endl; 
-/*
+    
     // ------------------------------------------------------------
     //                          Point tests
     // ------------------------------------------------------------
@@ -614,7 +614,6 @@ void part4()
     p3.multiply(it2); 
     p3.toString();   
     std::cout << "---------------------\n" << std::endl;
-*/
 }
 
 int main()
