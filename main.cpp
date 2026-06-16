@@ -52,17 +52,24 @@ Project 4: Part 4 / 9
  
  You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
-
-
-
+#include <iostream>
+#include <cmath> 
+struct FloatType;
+struct DoubleType;
+struct IntType;
 struct Point
 {
-    Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
+    Point( float x_, float y_ ) : x(x_), y(y_) { }
+    Point( const FloatType& ft_, float y_ );
+    Point( const DoubleType& dt_, float y_ );
+    Point( const IntType& it_, float y_ );
+       
+    Point& multiply(float m);
+    Point& multiply(const FloatType& ft);
+    Point& multiply(const DoubleType& dt);
+    Point& multiply(const IntType& it);
+    void toString() const;
+
 private:
     float x{0}, y{0};
 };
@@ -192,13 +199,9 @@ struct HeapA
  Wait for my code review.
  */
 
-#include <iostream>
-#include <cmath> 
-struct DoubleType;
-struct IntType;
 struct FloatType
 {
-    FloatType(float ft);
+    explicit FloatType(float ft);
     ~FloatType();
     
     FloatType& add( float ft );
@@ -261,7 +264,7 @@ FloatType& FloatType::divide( float ft )
 
 struct DoubleType
 {
-    DoubleType(double dt);
+    explicit DoubleType(double dt);
     ~DoubleType();
 
     DoubleType& add( double dt );
@@ -324,7 +327,7 @@ DoubleType& DoubleType::divide( double dt )
 
 struct IntType
 {
-    IntType(int it);
+    explicit IntType(int it);
     ~IntType();
     
     IntType& add( int it );
@@ -466,6 +469,50 @@ IntType& IntType::powInternal(int exp)
     return *this;
 }
 
+Point::Point( const FloatType& ft_, float y_ ) : 
+    Point( static_cast<float>(ft_), y_ ) 
+{ 
+
+}
+
+Point::Point( const DoubleType& dt_, float y_ ) : 
+    Point( static_cast<float>(dt_), y_ ) 
+{ 
+
+}
+Point::Point( const IntType& it_, float y_ ) : 
+    Point( static_cast<float>(it_), y_ )
+{ 
+
+}
+
+Point& Point::multiply(float m)
+{
+    x *= m;
+    y *= m;
+    return *this;
+}
+
+Point& Point::multiply(const FloatType& ft)
+{
+    return multiply(static_cast<float>(ft));
+}
+
+Point& Point::multiply(const DoubleType& dt)
+{
+    return multiply(static_cast<float>(dt));
+}
+
+Point& Point::multiply(const IntType& it)
+{
+    return multiply(static_cast<float>(it));
+}
+
+void Point::toString() const
+{
+    std::cout << "Point { x: " << x << ", y: " << y << " }"<< std::endl;
+}
+
 void part3()
 {
     FloatType ft( 5.5f );
@@ -522,7 +569,7 @@ void part4()
     std::cout << "pow(it1, ftExp) = " << it1 << "^" << ftExp << " = " << it1.pow(ftExp)  << std::endl;    
     std::cout << "pow(it1, dtExp) = " << it1 << "^" << dtExp << " = " << it1.pow(dtExp)  << std::endl;    
     std::cout << "===============================\n" << std::endl; 
-/*
+
     // ------------------------------------------------------------
     //                          Point tests
     // ------------------------------------------------------------
@@ -566,7 +613,6 @@ void part4()
     p3.multiply(it2); 
     p3.toString();   
     std::cout << "---------------------\n" << std::endl;
-*/
 }
 
 
@@ -621,6 +667,7 @@ int main()
 
     std::cout << "---------------------\n" << std::endl;
     part3();
+    part4();
     std::cout << "good to go!\n";
 
     return 0;
