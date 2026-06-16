@@ -60,12 +60,17 @@ struct IntType;
 
 struct Point
 {
-    Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
+    Point( float x_, float y_ ) : x(x_), y(y_) { }
+    Point( const FloatType& ft_, float y_ );
+    Point( const DoubleType& dt_, float y_ );
+    Point( const IntType& it_, float y_ );
+       
+    Point& multiply(float m);
+    Point& multiply(const FloatType& ft);
+    Point& multiply(const DoubleType& dt);
+    Point& multiply(const IntType& it);
+    void toString() const;
+
 private:
     float x{0}, y{0};
 };
@@ -463,6 +468,50 @@ IntType& IntType::powInternal(int exp)
 {
     *value = static_cast<int>(std::pow(*value, exp));
     return *this;
+}
+
+Point::Point( const FloatType& ft_, float y_ ) : 
+    Point( static_cast<float>(ft_), y_ ) 
+{ 
+
+}
+
+Point::Point( const DoubleType& dt_, float y_ ) : 
+    Point( static_cast<float>(dt_), y_ ) 
+{ 
+
+}
+Point::Point( const IntType& it_, float y_ ) : 
+    Point( static_cast<float>(it_), y_ )
+{ 
+
+}
+
+Point& Point::multiply(float m)
+{
+    x *= m;
+    y *= m;
+    return *this;
+}
+
+Point& Point::multiply(const FloatType& ft)
+{
+    return multiply(static_cast<float>(ft));
+}
+
+Point& Point::multiply(const DoubleType& dt)
+{
+    return multiply(static_cast<float>(dt));
+}
+
+Point& Point::multiply(const IntType& it)
+{
+    return multiply(static_cast<float>(it));
+}
+
+void Point::toString() const
+{
+    std::cout << "Point { x: " << x << ", y: " << y << " }"<< std::endl;
 }
 
 void part3()
