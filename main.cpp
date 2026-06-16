@@ -202,7 +202,7 @@ struct HeapA
 
 struct FloatType
 {
-    FloatType(float ft);
+    explicit FloatType(float ft);
     ~FloatType();
     
     FloatType& add( float ft );
@@ -265,7 +265,7 @@ FloatType& FloatType::divide( float ft )
 
 struct DoubleType
 {
-    DoubleType(double dt);
+    explicit DoubleType(double dt);
     ~DoubleType();
 
     DoubleType& add( double dt );
@@ -328,7 +328,7 @@ DoubleType& DoubleType::divide( double dt )
 
 struct IntType
 {
-    IntType(int it);
+    explicit IntType(int it);
     ~IntType();
     
     IntType& add( int it );
