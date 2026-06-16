@@ -213,10 +213,10 @@ struct FloatType
     explicit FloatType(float ft);
     ~FloatType();
     
-    FloatType& add( float ft );
-    FloatType& subtract( float ft );
-    FloatType& multiply( float ft );
-    FloatType& divide( float ft );
+    FloatType& operator+=( float ft );
+    FloatType& operator-=( float ft );
+    FloatType& operator*=( float ft );
+    FloatType& operator/=( float ft );
  
     FloatType& pow(float arg);
     FloatType& pow(const FloatType& arg);
@@ -243,25 +243,25 @@ FloatType::operator float() const
     return *value;
 }
 
-FloatType& FloatType::add( float ft )
+FloatType& FloatType::operator+=( float ft )
 {
     *value += ft;
     return *this;
 }
 
-FloatType& FloatType::subtract( float ft )
+FloatType& FloatType::operator-=( float ft )
 {
     *value -= ft;
     return *this;
 }
 
-FloatType& FloatType::multiply( float ft )
+FloatType& FloatType::operator*=( float ft )
 {
     *value *= ft;
     return *this;
 }
 
-FloatType& FloatType::divide( float ft )
+FloatType& FloatType::operator/=( float ft )
 {
      if (ft == 0.f)
      {
