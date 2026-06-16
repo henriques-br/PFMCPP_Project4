@@ -66,7 +66,7 @@ struct Point
 private:
     float x{0}, y{0};
 };
-
+/*
 void part4()
 {
     // ------------------------------------------------------------
@@ -150,7 +150,7 @@ void part4()
     p3.toString();   
     std::cout << "---------------------\n" << std::endl;
 }
-
+*/
 /*
 your program should generate the following output EXACTLY.
 This includes the warnings.  
