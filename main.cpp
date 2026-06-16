@@ -276,10 +276,10 @@ struct DoubleType
     explicit DoubleType(double dt);
     ~DoubleType();
 
-    DoubleType& add( double dt );
-    DoubleType& subtract( double dt );
-    DoubleType& multiply( double dt );
-    DoubleType& divide( double dt );
+    DoubleType& operator+=( double dt );
+    DoubleType& operator-=( double dt );
+    DoubleType& operator*=( double dt );
+    DoubleType& operator/=( double dt );
 
     DoubleType& pow(double arg);
     DoubleType& pow(const FloatType& arg);
@@ -306,25 +306,25 @@ DoubleType::operator double() const
     return *value; 
 }
 
-DoubleType& DoubleType::add( double dt )
+DoubleType& DoubleType::operator+=( double dt )
 {
     *value += dt;
     return *this;
 }
 
-DoubleType& DoubleType::subtract( double dt )
+DoubleType& DoubleType::operator-=( double dt )
 {
     *value -= dt;
     return *this;
 }
 
-DoubleType& DoubleType::multiply( double dt )
+DoubleType& DoubleType::operator*=( double dt )
 {
     *value *= dt;
     return *this;
 }
 
-DoubleType& DoubleType::divide( double dt )
+DoubleType& DoubleType::operator/=( double dt )
 {
     if (dt == 0.0)
     {
