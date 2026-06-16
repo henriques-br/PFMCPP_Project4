@@ -339,10 +339,10 @@ struct IntType
     explicit IntType(int it);
     ~IntType();
     
-    IntType& add( int it );
-    IntType& subtract( int it );
-    IntType& multiply( int it );
-    IntType& divide( int it );
+    IntType& operator+=( int it );
+    IntType& operator-=( int it );
+    IntType& operator*=( int it );
+    IntType& operator/=( int it );
 
     IntType& pow(int arg);
     IntType& pow(const FloatType& arg);
@@ -369,25 +369,25 @@ IntType::operator int() const
     return *value; 
 }
 
-IntType& IntType::add( int it )
+IntType& IntType::operator+=( int it )
 {
     *value += it;
     return *this;
 }
 
-IntType& IntType::subtract( int it )
+IntType& IntType::operator-=( int it )
 {
     *value -= it;
     return *this;
 }
 
-IntType& IntType::multiply( int it )
+IntType& IntType::operator*=( int it )
 {
     *value *= it;
     return *this;
 }
 
-IntType& IntType::divide( int it )
+IntType& IntType::operator/=( int it )
 {
     if (it == 0)
     {
