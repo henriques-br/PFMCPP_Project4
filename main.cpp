@@ -52,8 +52,11 @@ Project 4: Part 4 / 9
  
  You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
-
-
+#include <iostream>
+#include <cmath> 
+struct FloatType;
+struct DoubleType;
+struct IntType;
 
 struct Point
 {
@@ -276,9 +279,6 @@ struct HeapA
  Wait for my code review.
  */
 
-#include <iostream>
-struct DoubleType;
-struct IntType;
 struct FloatType
 {
     FloatType(float ft);
@@ -289,9 +289,15 @@ struct FloatType
     FloatType& multiply( float ft );
     FloatType& divide( float ft );
  
+    FloatType& pow(float arg);
+    FloatType& pow(const FloatType& arg);
+    FloatType& pow(const IntType& arg);
+    FloatType& pow(const DoubleType& arg);
+
     operator float() const;
 private:
     float* value = nullptr;
+    FloatType& powInternal(float arg);
 };
 
 FloatType::FloatType(float ft) : value(new float(ft))
@@ -453,7 +459,32 @@ IntType& IntType::divide( int it )
     return *this;
 }
 
-#include <iostream>
+FloatType& FloatType::pow(float arg)
+{
+    return powInternal(arg);
+}
+
+FloatType& FloatType::pow(const FloatType& arg)
+{
+    return powInternal(arg);
+}
+
+FloatType& FloatType::pow(const IntType& arg)
+{
+    return powInternal(static_cast<float>(arg));
+}
+
+FloatType& FloatType::pow(const DoubleType& arg)
+{
+    return powInternal(static_cast<float>(arg));
+}
+
+FloatType& FloatType::powInternal(float exp)
+{
+    *value = static_cast<float>(std::pow(*value, exp));
+    return *this;
+}
+
 void part3()
 {
     FloatType ft( 5.5f );
