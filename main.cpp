@@ -352,9 +352,15 @@ struct DoubleType
     DoubleType& multiply( double dt );
     DoubleType& divide( double dt );
 
+    DoubleType& pow(double arg);
+    DoubleType& pow(const FloatType& arg);
+    DoubleType& pow(const IntType& arg);
+    DoubleType& pow(const DoubleType& arg);
+
     operator double() const;
 private:
     double* value = nullptr;
+    DoubleType& powInternal(double arg);
 };
 
 DoubleType::DoubleType(double dt) : value(new double(dt))
@@ -482,6 +488,32 @@ FloatType& FloatType::pow(const DoubleType& arg)
 FloatType& FloatType::powInternal(float exp)
 {
     *value = static_cast<float>(std::pow(*value, exp));
+    return *this;
+}
+
+DoubleType& DoubleType::pow(double arg)
+{
+    return powInternal(arg);
+}
+
+DoubleType& DoubleType::pow(const FloatType& arg)
+{
+    return powInternal(static_cast<double>(arg));
+}
+
+DoubleType& DoubleType::pow(const IntType& arg)
+{
+    return powInternal(static_cast<double>(arg));
+}
+
+DoubleType& DoubleType::pow(const DoubleType& arg)
+{
+    return powInternal(arg);
+}
+
+DoubleType& DoubleType::powInternal(double exp)
+{
+    *value = static_cast<double>(std::pow(*value, exp));
     return *this;
 }
 
