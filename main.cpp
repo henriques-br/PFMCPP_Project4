@@ -529,15 +529,34 @@ void part3()
     IntType it ( 34 );
     DoubleType pi( 3.14 );
 
-    std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( static_cast<float>(it) ) << std::endl;
-    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( static_cast<double>(3) ).add( static_cast<double>(it) ) << std::endl;
-    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it.divide( static_cast<int>(pi) ).multiply( static_cast<int>(dt) ).subtract( static_cast<int>(ft) ) << std::endl;
-    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-    std::cout << it.multiply(it).divide(0).divide(0.0f).divide(0.0) << std::endl;
+    ft *= 5.5f;
+    ft *= ft;
+    ft /= static_cast<float>(it);
+    std::cout << "The result of FloatType^4 divided by IntType is: " << ft << std::endl;
     
-    std::cout << "FloatType x IntType  =  " << it.multiply( static_cast<int>(ft) ) << std::endl;
-    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add( static_cast<int>(dt) ).add( static_cast<int>(ft) ).multiply( 24 ) << std::endl;
+    dt *= static_cast<double>(3);
+    dt += static_cast<double>(it);
+    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt << std::endl;
+ 
+    it /= static_cast<int>(pi);
+    it *= static_cast<int>(dt);
+    it -= static_cast<int>(ft);
+    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it << std::endl;
+    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
 
+    it *= it;
+    it /= 0;
+    it /= 0.0f;
+    it /= 0.0;
+    std::cout << it << std::endl;
+
+    it *= static_cast<int>(ft);
+    std::cout << "FloatType x IntType  =  " << it << std::endl;
+
+    it += static_cast<int>(dt);
+    it += static_cast<int>(ft);
+    it *= 24;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it << std::endl;
 }
 
 void part4()
