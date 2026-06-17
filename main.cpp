@@ -820,7 +820,7 @@ void part4()
     p3.toString();   
     std::cout << "---------------------\n" << std::endl;
 }
-
+/*
 void part6()
 {
     FloatType ft3(3.0f);
@@ -869,7 +869,7 @@ void part6()
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
-
+*/
 int main()
 {
     //testing instruction 0
