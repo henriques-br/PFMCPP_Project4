@@ -345,6 +345,9 @@ struct DoubleType
     explicit DoubleType(double dt);
     ~DoubleType();
 
+    DoubleType& apply( std::function<DoubleType&(DoubleType&)> f );
+    DoubleType& apply( void(*f)(DoubleType&) );
+    
     DoubleType& operator+=( double dt );
     DoubleType& operator-=( double dt );
     DoubleType& operator*=( double dt );
@@ -400,6 +403,25 @@ DoubleType& DoubleType::operator/=( double dt )
         std::cout << "warning: floating point division by zero!\n";
     }
     *value /= dt;
+    return *this;
+}
+
+DoubleType& DoubleType::apply( std::function<DoubleType&(DoubleType&)> f )
+{
+    if (f)
+    {
+        return f(*this);
+    }
+    return *this;
+}
+
+DoubleType& DoubleType::apply( void(*f)(DoubleType&) )
+{
+    if (f)
+    {
+        f(*this);
+    }
+
     return *this;
 }
 
