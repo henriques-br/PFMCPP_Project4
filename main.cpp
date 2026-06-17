@@ -207,6 +207,8 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 
 #include <iostream>
 #include <cmath> 
+#include <functional> 
+
 struct FloatType;
 struct DoubleType;
 struct IntType;
@@ -258,6 +260,9 @@ struct FloatType
     explicit FloatType(float ft);
     ~FloatType();
     
+    FloatType& apply( std::function<FloatType&(FloatType&)> f );
+    FloatType& apply( void(*f)(FloatType&) );
+
     FloatType& operator+=( float ft );
     FloatType& operator-=( float ft );
     FloatType& operator*=( float ft );
@@ -313,6 +318,25 @@ FloatType& FloatType::operator/=( float ft )
         std::cout << "warning: floating point division by zero!\n";
     }
     *value /= ft;
+    return *this;
+}
+
+FloatType& FloatType::apply( std::function<FloatType&(FloatType&)> f )
+{
+    if (f)
+    {
+        return f(*this);
+    }
+    return *this;
+}
+
+FloatType& FloatType::apply( void(*f)(FloatType&) )
+{
+    if (f)
+    {
+        f(*this);
+    }
+
     return *this;
 }
 
