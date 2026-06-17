@@ -42,7 +42,7 @@ build/run to make sure you don't have any errors
  
  If you need to see an example, look at https://bitbucket.org/MatkatMusic/pfmcpptasks/src/master/Projects/Project4/Part6Example.cpp
  */
-
+/*
 void part6()
 {
     FloatType ft3(3.0f);
@@ -79,7 +79,7 @@ void part6()
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
-
+*/
 /*
 your program should generate the following output EXACTLY.
 This includes the warnings.
