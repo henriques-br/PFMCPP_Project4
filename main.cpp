@@ -347,7 +347,7 @@ struct DoubleType
 
     DoubleType& apply( std::function<DoubleType&(DoubleType&)> f );
     DoubleType& apply( void(*f)(DoubleType&) );
-    
+
     DoubleType& operator+=( double dt );
     DoubleType& operator-=( double dt );
     DoubleType& operator*=( double dt );
@@ -429,7 +429,10 @@ struct IntType
 {
     explicit IntType(int it);
     ~IntType();
-    
+
+    IntType& apply( std::function<IntType&(IntType&)> f );
+    IntType& apply( void(*f)(IntType&) );
+        
     IntType& operator+=( int it );
     IntType& operator-=( int it );
     IntType& operator*=( int it );
@@ -488,6 +491,25 @@ IntType& IntType::operator/=( int it )
     {
         *value /= it;
     }
+    return *this;
+}
+
+IntType& IntType::apply( std::function<IntType&(IntType&)> f )
+{
+    if (f)
+    {
+        return f(*this);
+    }
+    return *this;
+}
+
+IntType& IntType::apply( void(*f)(IntType&) )
+{
+    if (f)
+    {
+        f(*this);
+    }
+
     return *this;
 }
 
