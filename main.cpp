@@ -432,7 +432,7 @@ struct IntType
 
     IntType& apply( std::function<IntType&(IntType&)> f );
     IntType& apply( void(*f)(IntType&) );
-        
+
     IntType& operator+=( int it );
     IntType& operator-=( int it );
     IntType& operator*=( int it );
@@ -589,6 +589,21 @@ IntType& IntType::powInternal(int exp)
 {
     *value = static_cast<int>(std::pow(*value, exp));
     return *this;
+}
+
+void myFloatFreeFunct(FloatType& ft)
+{
+    ft += 7.0f;
+}
+
+void myDoubleFreeFunct(DoubleType& dt)
+{
+    dt += 6.0;
+}
+
+void myIntFreeFunct(IntType& it)
+{
+    it += 5;
 }
 
 Point::Point( const FloatType& ft_, float y_ ) : 
