@@ -854,6 +854,7 @@ int main()
     std::cout << "---------------------\n" << std::endl;
     part3();
     part4();
+    part6();
     std::cout << "good to go!\n";
 
     return 0;
