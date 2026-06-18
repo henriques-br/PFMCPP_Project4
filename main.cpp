@@ -207,6 +207,8 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <cmath> 
 #include <functional> 
 #include <memory>
+#include <type_traits>
+#include <limits>
 /*
 struct FloatType;
 struct DoubleType;
@@ -257,11 +259,37 @@ public:
         return *this;
     }
 
-    Numeric& operator/=(Type rhs)
+    template<typename U>
+    Numeric& operator/=(U rhs)
     {
-        *value /= rhs;
+        if constexpr (std::is_same<Type, int>::value)
+        {
+            //std::cout << "Class Type is int\n";
+            if constexpr (std::is_same<U, int>::value)
+            {
+                //std::cout << "Parameter Type is int\n";
+                if (rhs == 0) //3
+                {
+                    std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl;
+                    return *this;
+                }
+            }
+            else if(rhs <= std::numeric_limits<U>::epsilon())
+            {
+                //std::cout << "Parameter Type is NOT int\n";
+                    std::cout << "can't divide integers by zero!" << std::endl;
+                    return *this;
+            }
+        }
+        else if(rhs <= std::numeric_limits<U>::epsilon())
+        {
+                std::cout << "warning: floating point division by zero!" << std::endl;
+        }
+        
+        *value /= static_cast<Type>(rhs);
         return *this;
-    }   
+    }
+
 
     Numeric& pow(Type arg)
     {
