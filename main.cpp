@@ -261,10 +261,36 @@ public:
         return *this;
     }   
 
+    Numeric& pow(float arg)
+    {
+        return powInternal(arg);
+    }
+
+    Numeric& pow(const FloatType& arg)
+    {
+        return powInternal(arg);
+    }
+
+    Numeric& pow(const IntType& arg)
+    {
+        return powInternal(arg);
+    }
+
+    Numeric& pow(const DoubleType& arg)
+    {
+        return powInternal(arg);
+    }
+
     operator T() const { return *value; }
 
 private:
     std::unique_ptr<T> value;
+
+        Numeric& powInternal(T arg)
+    {
+        *value = static_cast<T>(std::pow(*value, arg));
+        return *this;
+    }
 };
 
 struct Point
