@@ -218,7 +218,7 @@ class Numeric
 public:
     using Type = T;
 
-    explicit Numeric(T v) : value(std::make_unique<Type>(v)) { }
+    explicit Numeric(T v) : value(std::make_unique<T>(v)) { }
     ~Numeric() { }
 
     Numeric& apply( std::function<Numeric&(Numeric&)> func )
@@ -266,29 +266,27 @@ public:
         return powInternal(arg);
     }
 
-    Numeric& pow(const FloatType& arg)
+    template<typename U>
+    Numeric& pow(const Numeric<U>& ntype)
     {
-        return powInternal(arg);
+        return powInternal(static_cast<Type>(ntype));
     }
-
-    Numeric& pow(const IntType& arg)
-    {
-        return powInternal(arg);
-    }
-
-    Numeric& pow(const DoubleType& arg)
-    {
-        return powInternal(arg);
-    }
-
+    
     operator T() const { return *value; }
 
 private:
-    std::unique_ptr<T> value;
+    std::unique_ptr<T> value = nullptr;
 
-        Numeric& powInternal(T arg)
+    Numeric& powInternal(Type arg)
     {
-        *value = static_cast<T>(std::pow(*value, arg));
+        if constexpr (std::is_same<Type, int>::value)
+        {
+            *value = static_cast<int>(std::pow(*value, arg));
+        }
+        else
+        {
+            *value = std::pow(*value, arg);
+        }
         return *this;
     }
 };
@@ -671,17 +669,17 @@ IntType& IntType::powInternal(int exp)
     return *this;
 }
 
-void myFloatFreeFunct(FloatType& ft)
+void myFloatFreeFunct(Numeric<float>& ft)
 {
     ft += 7.0f;
 }
 
-void myDoubleFreeFunct(DoubleType& dt)
+void myDoubleFreeFunct(Numeric<double>& dt)
 {
     dt += 6.0;
 }
 
-void myIntFreeFunct(IntType& it)
+void myIntFreeFunct(Numeric<int>& it)
 {
     it += 5;
 }
@@ -728,6 +726,11 @@ Point& Point::multiply(const IntType& it)
 void Point::toString() const
 {
     std::cout << "Point { x: " << x << ", y: " << y << " }"<< std::endl;
+}
+
+template<typename T>
+void myNumericFreeFunct(Numeric<T>& obj) {
+    obj += 7;
 }
 
 void part3()
@@ -906,13 +909,16 @@ void part7()
     Numeric<float> ft3(3.0f);
     Numeric<double> dt3(4.0);
     Numeric<int> it3(5);
-/*    
+   
     std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
     std::cout << "ft3 before: " << ft3 << std::endl;
 
     {
-        using Type = #4;
-        ft3.apply( [](std::unique...){} );
+        using Type = Numeric<float>;
+        ft3.apply([](Numeric<decltype(ft3)::Type>& obj) -> Numeric<decltype(ft3)::Type>& {
+            obj += 7.0f;
+            return obj;
+        });    
     }
 
     std::cout << "ft3 after: " << ft3 << std::endl;
@@ -924,7 +930,7 @@ void part7()
 
     std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
     std::cout << "dt3 before: " << dt3 << std::endl;
-
+/* 
     {
         using Type = #4;
         dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
@@ -1037,6 +1043,7 @@ int main()
     part3();
     part4();
 //    part6();
+    part7();
     std::cout << "good to go!\n";
 
     return 0;
