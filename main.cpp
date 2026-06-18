@@ -207,11 +207,11 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <cmath> 
 #include <functional> 
 #include <memory>
-
+/*
 struct FloatType;
 struct DoubleType;
 struct IntType;
-
+*/
 template<typename T>
 struct Numeric
 {
@@ -325,9 +325,9 @@ struct Numeric<double>
         return *this;
     }
 
-    Numeric& pow(Type num)
+    Numeric& pow(Type arg)
     {
-        return powInternal(num);
+        return powInternal(arg);
     }
 
     template<typename U>
@@ -359,16 +359,28 @@ private:
 
 struct Point
 {
-    Point( float x_, float y_ ) : x(x_), y(y_) { }
-    Point( const FloatType& ft_, float y_ );
-    Point( const DoubleType& dt_, float y_ );
-    Point( const IntType& it_, float y_ );
+    explicit Point( float x_, float y_ ) : x(x_), y(y_) { }
+
+    template<typename T, typename P>
+    Point( const T& t_, const P& p_ ) : Point( static_cast<float>(t_), static_cast<float>(p_)) { }
        
-    Point& multiply(float m);
-    Point& multiply(const FloatType& ft);
-    Point& multiply(const DoubleType& dt);
-    Point& multiply(const IntType& it);
-    void toString() const;
+    Point& multiply(float m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
+
+    template<typename T>
+    Point& multiply(const T& ft)
+    {
+        return multiply(static_cast<float>(ft));
+    }
+
+    void toString() const
+    {
+        std::cout << "Point { x: " << x << ", y: " << y << " }"<< std::endl;
+    }
 
 private:
     float x{0}, y{0};
@@ -398,7 +410,7 @@ struct HeapA
 
  Wait for my code review.
  */
-
+/*
 struct FloatType
 {
     explicit FloatType(float ft);
@@ -734,7 +746,7 @@ IntType& IntType::powInternal(int exp)
     *value = static_cast<int>(std::pow(*value, exp));
     return *this;
 }
-
+*/
 void myFloatFreeFunct(Numeric<float>& ft)
 {
     ft += 7.0f;
@@ -749,7 +761,7 @@ void myIntFreeFunct(Numeric<int>& it)
 {
     it += 5;
 }
-
+/*
 Point::Point( const FloatType& ft_, float y_ ) : 
     Point( static_cast<float>(ft_), y_ ) 
 { 
@@ -793,7 +805,7 @@ void Point::toString() const
 {
     std::cout << "Point { x: " << x << ", y: " << y << " }"<< std::endl;
 }
-
+*/
 template<typename T>
 void myNumericFreeFunct(Numeric<T>& obj) {
     obj += 7;
@@ -801,10 +813,10 @@ void myNumericFreeFunct(Numeric<T>& obj) {
 
 void part3()
 {
-    FloatType ft( 5.5f );
-    DoubleType dt( 11.1 );
-    IntType it ( 34 );
-    DoubleType pi( 3.14 );
+    Numeric<float> ft( 5.5f );
+    Numeric<double> dt( 11.1 );
+    Numeric<int> it ( 34 );
+    Numeric<double> pi( 3.14 );
 
     ft *= 5.5f;
     ft *= ft;
@@ -841,15 +853,15 @@ void part4()
     // ------------------------------------------------------------
     //                          Power tests
     // ------------------------------------------------------------
-    FloatType ft1(2);
-    DoubleType dt1(2);
-    IntType it1(2);    
+    Numeric<float> ft1(2);
+    Numeric<double> dt1(2);
+    Numeric<int> it1(2);    
     float floatExp = 2.0f;
     double doubleExp = 2.0;
     int intExp = 2;
-    IntType itExp(2);
-    FloatType ftExp(2.0f);
-    DoubleType dtExp(2.0);
+    Numeric<int> itExp(2);
+    Numeric<float> ftExp(2.0f);
+    Numeric<double> dtExp(2.0);
     
     // Power tests with FloatType
     std::cout << "Power tests with FloatType" << std::endl;
@@ -878,9 +890,9 @@ void part4()
     // ------------------------------------------------------------
     //                          Point tests
     // ------------------------------------------------------------
-    FloatType ft2(3.0f);
-    DoubleType dt2(4.0);
-    IntType it2(5);
+    Numeric<float>  ft2(3.0f);
+    Numeric<double>  dt2(4.0);
+    Numeric<int>  it2(5);
     float floatMul = 6.0f;
 
     // Point tests with float
@@ -1031,9 +1043,9 @@ int main()
     HeapA heapA;
 
     //assign heap primitives
-    FloatType ft ( 2.0f );
-    DoubleType dt ( 2 );
-    IntType it ( 2 ) ;
+    Numeric<float> ft ( 2.0f );
+    Numeric<double> dt ( 2 );
+    Numeric<int> it ( 2 ) ;
 
     ft += 2.f;
     std::cout << "FloatType add result=" << ft << std::endl;
