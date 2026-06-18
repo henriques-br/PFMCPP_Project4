@@ -206,10 +206,66 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <iostream>
 #include <cmath> 
 #include <functional> 
+#include <memory>
 
 struct FloatType;
 struct DoubleType;
 struct IntType;
+
+template<typename T>
+class Numeric
+{
+public:
+    using Type = T;
+
+    explicit Numeric(T v) : value(std::make_unique<Type>(v)) { }
+    ~Numeric() { }
+
+    Numeric& apply( std::function<Numeric&(Numeric&)> func )
+    {
+        if (func)
+        {
+            return func(*this);
+        }
+        return *this;
+    }
+
+    Numeric& apply( void(*func)(Numeric&) )
+    {
+        if (func)
+        {
+            func(*this);
+        }
+        return *this;
+    }
+
+    Numeric& operator+=(T rhs)
+    {
+        *value += rhs;
+        return *this;
+    }   
+
+    Numeric& operator-=(T rhs)
+    {
+        *value -= rhs;
+        return *this;
+    }   
+    Numeric& operator*=(T rhs)
+    {
+        *value *= rhs;
+        return *this;
+    }   
+    Numeric& operator/=(T rhs)
+    {
+        *value /= rhs;
+        return *this;
+    }   
+
+    operator T() const { return *value; }
+
+private:
+    std::unique_ptr<T> value;
+};
 
 struct Point
 {
@@ -821,10 +877,10 @@ void part6()
 
 void part7()
 {
-    Numeric ft3(3.0f);
-    Numeric dt3(4.0);
-    Numeric it3(5);
-    
+    Numeric<float> ft3(3.0f);
+    Numeric<double> dt3(4.0);
+    Numeric<int> it3(5);
+/*    
     std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
     std::cout << "ft3 before: " << ft3 << std::endl;
 
@@ -868,6 +924,7 @@ void part7()
     it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
+*/
 }
 
 int main()
@@ -953,7 +1010,7 @@ int main()
     std::cout << "---------------------\n" << std::endl;
     part3();
     part4();
-    part6();
+//    part6();
     std::cout << "good to go!\n";
 
     return 0;
