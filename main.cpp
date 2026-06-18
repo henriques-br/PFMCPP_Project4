@@ -213,7 +213,7 @@ struct DoubleType;
 struct IntType;
 
 template<typename T>
-class Numeric
+struct Numeric
 {
 public:
     using Type = T;
@@ -287,6 +287,70 @@ private:
         {
             *value = std::pow(*value, arg);
         }
+        return *this;
+    }
+};
+
+template<>
+struct Numeric<double>
+{
+    using Type = double;
+
+    explicit Numeric(Type v) : value(std::make_unique<Type>(v)) {}
+    ~Numeric() {}
+
+    Numeric& operator+=(Type rhs) 
+    {
+        *value += rhs;
+        return *this;
+    }
+
+    Numeric& operator-=(Type rhs) 
+    {
+        *value -= rhs;
+        return *this;
+    }
+
+    Numeric& operator*=(Type rhs) 
+    {
+        *value *= rhs;
+        return *this;
+    }
+
+    Numeric& operator/=(Type rhs) 
+    {
+        *value /= rhs;
+        return *this;
+    }
+
+    Numeric& pow(Type num)
+    {
+        return powInternal(num);
+    }
+
+    template<typename U>
+    Numeric& pow(const Numeric<U>& ntype)
+    {
+        return powInternal(static_cast<Type>(ntype));
+    }
+
+    template<typename Callable>
+    Numeric& apply(Callable func)
+    {
+        func(*this);
+        return *this;
+    }
+
+    operator Type() const
+    {
+        return *value;
+    }
+private:
+    std::unique_ptr<Type> value = nullptr;
+
+    Numeric& powInternal(Type arg)
+    {
+        *value = std::pow(*value, arg);
         return *this;
     }
 };
