@@ -218,7 +218,7 @@ struct Numeric
 public:
     using Type = T;
 
-    explicit Numeric(T v) : value(std::make_unique<T>(v)) { }
+    explicit Numeric(Type v) : value(std::make_unique<Type>(v)) { }
     ~Numeric() { }
 
     Numeric& apply( std::function<Numeric&(Numeric&)> func )
@@ -239,45 +239,45 @@ public:
         return *this;
     }
 
-    Numeric& operator+=(T rhs)
+    Numeric& operator+=(Type rhs)
     {
         *value += rhs;
         return *this;
     }   
 
-    Numeric& operator-=(T rhs)
+    Numeric& operator-=(Type rhs)
     {
         *value -= rhs;
         return *this;
-    } 
-      
-    Numeric& operator*=(T rhs)
+    }   
+
+    Numeric& operator*=(Type rhs)
     {
         *value *= rhs;
         return *this;
     }
 
-    Numeric& operator/=(T rhs)
+    Numeric& operator/=(Type rhs)
     {
         *value /= rhs;
         return *this;
     }   
 
-    Numeric& pow(float arg)
+    Numeric& pow(Type arg)
     {
         return powInternal(arg);
     }
 
     template<typename U>
-    Numeric& pow(const Numeric<U>& ntype)
+    Numeric& pow(const Numeric<U>& numType)
     {
-        return powInternal(static_cast<Type>(ntype));
+        return powInternal(static_cast<Type>(numType));
     }
     
-    operator T() const { return *value; }
+    operator Type() const { return *value; }
 
 private:
-    std::unique_ptr<T> value = nullptr;
+    std::unique_ptr<Type> value = nullptr;
 
     Numeric& powInternal(Type arg)
     {
