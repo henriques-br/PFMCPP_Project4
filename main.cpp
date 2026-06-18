@@ -249,12 +249,14 @@ public:
     {
         *value -= rhs;
         return *this;
-    }   
+    } 
+      
     Numeric& operator*=(T rhs)
     {
         *value *= rhs;
         return *this;
-    }   
+    }
+
     Numeric& operator/=(T rhs)
     {
         *value /= rhs;
