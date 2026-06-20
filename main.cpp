@@ -106,7 +106,7 @@ public:
         *value *= static_cast<Type>(rhs);
         return *this;
     }
-    
+
     template<typename OtherType>
     Numeric& operator+=(const OtherType& rhs)
     {
@@ -500,7 +500,7 @@ void part4()
     p3.toString();   
     std::cout << "---------------------\n" << std::endl;
 }
-/*
+
 void part6()
 {
     FloatType ft3(3.0f);
