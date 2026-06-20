@@ -97,9 +97,9 @@ struct Numeric
 public:
     using Type = T;
 
-    explicit Numeric(Type v) : value(std::make_unique<Type>(v)) { }
+    explicit Numeric(Type v) : value(std::make_unique<Numeric<Type>>(v)) { }
     ~Numeric() { }
-
+/*
     Numeric& apply( std::function<Numeric&(Numeric&)> func )
     {
         if (func)
@@ -117,32 +117,35 @@ public:
         }
         return *this;
     }
-
-    Numeric& operator+=(Type rhs)
+*/
+    template<typename OtherType>
+    Numeric& operator+=(const OtherType& rhs)
     {
-        *value += rhs;
-        return *this;
-    }   
-
-    Numeric& operator-=(Type rhs)
-    {
-        *value -= rhs;
-        return *this;
-    }   
-
-    Numeric& operator*=(Type rhs)
-    {
-        *value *= rhs;
+        *value += static_cast<Type>(rhs);
         return *this;
     }
 
-    template<typename U>
-    Numeric& operator/=(U rhs)
+    template<typename OtherType>
+    Numeric& operator-=(const OtherType& rhs)
+    {
+        *value -= static_cast<Type>(rhs);
+        return *this;
+    }
+
+    template<typename OtherType>
+    Numeric& operator*=(const OtherType& rhs)
+    {
+        *value *= static_cast<Type>(rhs);
+        return *this;
+    }
+
+    template<typename OtherType>
+    Numeric& operator/=(const OtherType& rhs)
     {
        if constexpr (std::is_same<Type, int>::value)
         {
             //std::cout << "Class Type is int\n";
-            if constexpr (std::is_same<U, int>::value)
+            if constexpr (std::is_same<OtherType, int>::value)
             {
                 //std::cout << "Parameter Type is int\n";
                 if (rhs == 0) 
@@ -151,13 +154,13 @@ public:
                     return *this;
                 }
             }
-            else if(rhs <= std::numeric_limits<U>::epsilon())
+            else if(rhs <= std::numeric_limits<OtherType>::epsilon())
             {
                 std::cout << "can't divide integers by zero!" << std::endl;
                 return *this;
             }
         }
-        else if(rhs <= std::numeric_limits<U>::epsilon())
+        else if(rhs <= std::numeric_limits<OtherType>::epsilon())
         {
             std::cout << "warning: floating point division by zero!" << std::endl;
         }
@@ -166,34 +169,17 @@ public:
         return *this;
     }
 
-    Numeric& pow(Type arg)
+    template<typename OtherType>
+    Numeric& pow(const OtherType& exp)
     {
-        return powInternal(arg);
-    }
-
-    template<typename U>
-    Numeric& pow(const Numeric<U>& numType)
-    {
-        return powInternal(static_cast<Type>(numType));
+        *value = std::pow(*value, static_cast<Type>(exp));
+        return *this;
     }
     
     operator Type() const { return *value; }
 
 private:
-    std::unique_ptr<Type> value = nullptr;
-
-    Numeric& powInternal(Type arg)
-    {
-        if constexpr (std::is_same<Type, int>::value)
-        {
-            *value = static_cast<int>(std::pow(*value, arg));
-        }
-        else
-        {
-            *value = std::pow(*value, arg);
-        }
-        return *this;
-    }
+    std::unique_ptr<Temporary<Type>> value = nullptr;
 };
 
 struct Point
