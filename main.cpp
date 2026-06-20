@@ -176,6 +176,18 @@ public:
         return *this;
     }
     
+    template<typename Callable>
+    Numeric& apply(Callable func)
+    {
+        func(*value);
+        return *this;
+    }
+
+    operator Temporary<Type>()
+    {
+        return Temporary<Type>(*value);
+    }
+    
     operator Type() const { return *value; }
 
 private:
