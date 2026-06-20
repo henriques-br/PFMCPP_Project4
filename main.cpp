@@ -91,130 +91,6 @@ struct Numeric
         so you should probably NOT return by copy if you want your templated class's owned object to be modified by any math operation.
     See the previous hint for implementing the conversion functions for the Temporary if you want to get the held value
 */
-
-
-/*
- 7) replace main() with the main below
-        you can remove or fix all previous partX() functions if they cause compiler errors. 
-        you can leave them where they are if they don't produce any errors.
-      
- If you did everything correctly, this is the output you should get:
- 
-I'm a Temporary<f> object, #0
-I'm a Temporary<i> object, #0
-I'm a Temporary<d> object, #0
-f: -1.89
-d: -3.024
-i: -9
-Point { x: -1.89, y: -9 }
-d: 3.024
-I'm a Temporary<d> object, #1
-I'm a Temporary<d> object, #2
-d: 1.49519e+08
-Point { x: -2.82591e+08, y: -1.34567e+09 }
-I'm a Temporary<f> object, #1
-I'm a Temporary<i> object, #1
-I'm a Temporary<i> object, #2
-I'm a Temporary<i> object, #3
-intNum: 5
-I'm a Temporary<f> object, #2
-f squared: 3.5721
-I'm a Temporary<f> object, #3
-f cubed: 45.5796
-I'm a Temporary<d> object, #3
-d squared: 2.2356e+16
-I'm a Temporary<d> object, #4
-d cubed: 1.11733e+49
-I'm a Temporary<i> object, #4
-i squared: 81
-I'm a Temporary<i> object, #5
-i cubed: 531441
-
-Use a service like https://www.diffchecker.com/diff to compare your output. 
-*/
-
-#include <iostream>
-int main()
-{
-    Numeric<float> f(0.1f);
-    Numeric<int> i(3);
-    Numeric<double> d(4.2);
-    
-    f += 2.f;
-    f -= i;
-    f *= d;
-    f /= 2.f;
-    std::cout << "f: " << f << std::endl;
-    
-    d += 2.f;
-    d -= i;
-    d *= f;
-    d /= 2.f;
-    std::cout << "d: " << d << std::endl;
-    
-    i += 2.f; i -= f; i *= d; i /= 2.f;
-    std::cout << "i: "<< i << std::endl;
-    
-    Point p(f, i);
-    p.toString();
-    
-    d *= -1;
-    std::cout << "d: " << d << std::endl;
-    
-    p.multiply(d.pow(f).pow(i));
-    std::cout << "d: " << d << std::endl;
-    
-    p.toString();
-    
-    Numeric<float> floatNum(4.3f);
-    Numeric<int> intNum(2);
-    Numeric<int> intNum2(6);
-    intNum = 2 + (intNum2 - 4) + static_cast<double>(floatNum) / 2.3;
-    std::cout << "intNum: " << intNum << std::endl;
-    
-    {
-        using Type = decltype(f)::Type;
-        f.apply([&f](std::unique_ptr<Type>&value) -> decltype(f)&
-                {
-                    auto& v = *value;
-                    v = v * v;
-                    return f;
-                });
-        std::cout << "f squared: " << f << std::endl;
-        
-        f.apply( cube<Type> );
-        std::cout << "f cubed: " << f << std::endl;
-    }
-    
-    {
-        using Type = decltype(d)::Type;
-        d.apply([&d](std::unique_ptr<Type>&value) -> decltype(d)&
-                {
-                    auto& v = *value;
-                    v = v * v;
-                    return d;
-                });
-        std::cout << "d squared: " << d << std::endl;
-        
-        d.apply( cube<Type> );
-        std::cout << "d cubed: " << d << std::endl;
-    }
-    
-    {
-        using Type = decltype(i)::Type;
-        i.apply([&i](std::unique_ptr<Type>&value) -> decltype(i)&
-                {
-                    auto& v = *value;
-                    v = v * v;
-                    return i;
-                });
-        std::cout << "i squared: " << i << std::endl;
-        
-        i.apply( cube<Type> );
-        std::cout << "i cubed: " << i << std::endl;
-    }
-}
-
 template<typename T>
 struct Numeric
 {
@@ -360,20 +236,6 @@ struct HeapA
     A* a = nullptr;
 };
 
-/*
- MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
-
- Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
- 
- If you didn't already: 
-    Make a pull request after you make your first commit
-    pin the pull request link and this repl.it link to our DM thread in a single message.
-
- send me a DM to review your pull request when the project is ready for review.
-
- Wait for my code review.
- */
-
 void myFloatFreeFunct(Numeric<float>& ft)
 {
     ft += 7.0f;
@@ -393,6 +255,143 @@ template<typename T>
 void myNumericFreeFunct(Numeric<T>& obj) {
     obj += 7;
 }
+
+/*
+ 7) replace main() with the main below
+        you can remove or fix all previous partX() functions if they cause compiler errors. 
+        you can leave them where they are if they don't produce any errors.
+      
+ If you did everything correctly, this is the output you should get:
+ 
+I'm a Temporary<f> object, #0
+I'm a Temporary<i> object, #0
+I'm a Temporary<d> object, #0
+f: -1.89
+d: -3.024
+i: -9
+Point { x: -1.89, y: -9 }
+d: 3.024
+I'm a Temporary<d> object, #1
+I'm a Temporary<d> object, #2
+d: 1.49519e+08
+Point { x: -2.82591e+08, y: -1.34567e+09 }
+I'm a Temporary<f> object, #1
+I'm a Temporary<i> object, #1
+I'm a Temporary<i> object, #2
+I'm a Temporary<i> object, #3
+intNum: 5
+I'm a Temporary<f> object, #2
+f squared: 3.5721
+I'm a Temporary<f> object, #3
+f cubed: 45.5796
+I'm a Temporary<d> object, #3
+d squared: 2.2356e+16
+I'm a Temporary<d> object, #4
+d cubed: 1.11733e+49
+I'm a Temporary<i> object, #4
+i squared: 81
+I'm a Temporary<i> object, #5
+i cubed: 531441
+
+Use a service like https://www.diffchecker.com/diff to compare your output. 
+*/
+
+#include <iostream>
+int main()
+{
+    Numeric<float> f(0.1f);
+    Numeric<int> i(3);
+    Numeric<double> d(4.2);
+    
+    f += 2.f;
+    f -= i;
+    f *= d;
+    f /= 2.f;
+    std::cout << "f: " << f << std::endl;
+    
+    d += 2.f;
+    d -= i;
+    d *= f;
+    d /= 2.f;
+    std::cout << "d: " << d << std::endl;
+    
+    i += 2.f; i -= f; i *= d; i /= 2.f;
+    std::cout << "i: "<< i << std::endl;
+    
+    Point p(f, i);
+    p.toString();
+    
+    d *= -1;
+    std::cout << "d: " << d << std::endl;
+    
+    p.multiply(d.pow(f).pow(i));
+    std::cout << "d: " << d << std::endl;
+    
+    p.toString();
+    
+    Numeric<float> floatNum(4.3f);
+    Numeric<int> intNum(2);
+    Numeric<int> intNum2(6);
+    intNum = 2 + (intNum2 - 4) + static_cast<double>(floatNum) / 2.3;
+    std::cout << "intNum: " << intNum << std::endl;
+    
+    {
+        using Type = decltype(f)::Type;
+        f.apply([&f](std::unique_ptr<Type>&value) -> decltype(f)&
+                {
+                    auto& v = *value;
+                    v = v * v;
+                    return f;
+                });
+        std::cout << "f squared: " << f << std::endl;
+        
+        f.apply( cube<Type> );
+        std::cout << "f cubed: " << f << std::endl;
+    }
+    
+    {
+        using Type = decltype(d)::Type;
+        d.apply([&d](std::unique_ptr<Type>&value) -> decltype(d)&
+                {
+                    auto& v = *value;
+                    v = v * v;
+                    return d;
+                });
+        std::cout << "d squared: " << d << std::endl;
+        
+        d.apply( cube<Type> );
+        std::cout << "d cubed: " << d << std::endl;
+    }
+    
+    {
+        using Type = decltype(i)::Type;
+        i.apply([&i](std::unique_ptr<Type>&value) -> decltype(i)&
+                {
+                    auto& v = *value;
+                    v = v * v;
+                    return i;
+                });
+        std::cout << "i squared: " << i << std::endl;
+        
+        i.apply( cube<Type> );
+        std::cout << "i cubed: " << i << std::endl;
+    }
+}
+
+/*
+ MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
+
+ Commit your changes by clicking on the Source Control panel on the left, entering a message, and click [Commit and push].
+ 
+ If you didn't already: 
+    Make a pull request after you make your first commit
+    pin the pull request link and this repl.it link to our DM thread in a single message.
+
+ send me a DM to review your pull request when the project is ready for review.
+
+ Wait for my code review.
+ */
+
 /*
 void part3()
 {
