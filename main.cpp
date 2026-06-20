@@ -97,27 +97,16 @@ struct Numeric
 public:
     using Type = T;
 
-    explicit Numeric(Type v) : value(std::make_unique<Numeric<Type>>(v)) { }
+    explicit Numeric(Type v) : value(std::make_unique<Temporary<Type>>(v)) { }
     ~Numeric() { }
-/*
-    Numeric& apply( std::function<Numeric&(Numeric&)> func )
-    {
-        if (func)
-        {
-            return func(*this);
-        }
-        return *this;
-    }
 
-    Numeric& apply( void(*func)(Numeric&) )
+    template<typename OtherType>
+    Numeric& operator=(const OtherType& rhs)
     {
-        if (func)
-        {
-            func(*this);
-        }
+        *value *= static_cast<Type>(rhs);
         return *this;
     }
-*/
+    
     template<typename OtherType>
     Numeric& operator+=(const OtherType& rhs)
     {
