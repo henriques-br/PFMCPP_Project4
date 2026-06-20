@@ -215,14 +215,6 @@ int main()
     }
 }
 
-
-#include <iostream>
-#include <cmath> 
-#include <functional> 
-#include <memory>
-#include <type_traits>
-#include <limits>
-
 template<typename T>
 struct Numeric
 {
@@ -328,76 +320,6 @@ private:
     }
 };
 
-template<>
-struct Numeric<double>
-{
-    using Type = double;
-
-    explicit Numeric(Type v) : value(std::make_unique<Type>(v)) {}
-    ~Numeric() {}
-
-    Numeric& operator+=(Type rhs) 
-    {
-        *value += rhs;
-        return *this;
-    }
-
-    Numeric& operator-=(Type rhs) 
-    {
-        *value -= rhs;
-        return *this;
-    }
-
-    Numeric& operator*=(Type rhs) 
-    {
-        *value *= rhs;
-        return *this;
-    }
-
-    template<typename U>
-    Numeric& operator/=(U rhs) 
-    {
-        if (rhs <= std::numeric_limits<U>::epsilon())
-        {
-            std::cout << "warning: floating point division by zero!" << std::endl;
-        }
-
-        *value /= static_cast<Type>(rhs);
-        return *this;
-    }
-
-    Numeric& pow(Type arg)
-    {
-        return powInternal(arg);
-    }
-
-    template<typename U>
-    Numeric& pow(const Numeric<U>& ntype)
-    {
-        return powInternal(static_cast<Type>(ntype));
-    }
-
-    template<typename Callable>
-    Numeric& apply(Callable func)
-    {
-        func(*this);
-        return *this;
-    }
-
-    operator Type() const
-    {
-        return *value;
-    }
-private:
-    std::unique_ptr<Type> value = nullptr;
-
-    Numeric& powInternal(Type arg)
-    {
-        *value = std::pow(*value, arg);
-        return *this;
-    }
-};
-
 struct Point
 {
     explicit Point( float x_, float y_ ) : x(x_), y(y_) { }
@@ -471,7 +393,7 @@ template<typename T>
 void myNumericFreeFunct(Numeric<T>& obj) {
     obj += 7;
 }
-
+/*
 void part3()
 {
     Numeric<float> ft( 5.5f );
@@ -641,7 +563,6 @@ void part6()
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
-*/
 
 void part7()
 {
@@ -792,3 +713,4 @@ int main()
 
     return 0;
 }
+*/
