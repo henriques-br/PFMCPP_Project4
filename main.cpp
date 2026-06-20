@@ -59,21 +59,21 @@ int Temporary<NumericType>::counter = 0;
  3) You'll need to template your overloaded math operator functions in your Templated Class from Ch5 p04
     use static_cast to convert whatever type is passed in to your template's NumericType before performing the +=, -=, etc.  here's an example implementation:
  */
-namespace example
-{
-template<typename NumericType>
-struct Numeric
-{
-    //snip
-    template<typename OtherType>
-    Numeric& operator-=(const OtherType& o) 
-    { 
-        *value -= static_cast<NumericType>(o); 
-        return *this; 
-    }
-    //snip
-};
-}
+// namespace example
+// {
+// template<typename NumericType>
+// struct Numeric
+// {
+//     //snip
+//     template<typename OtherType>
+//     Numeric& operator-=(const OtherType& o) 
+//     { 
+//         *value -= static_cast<NumericType>(o); 
+//         return *this; 
+//     }
+//     //snip
+// };
+// }
 
 /*
  4) remove your specialized <double> template of your Numeric<T> class from the previous task (ch5 p04)
@@ -103,7 +103,7 @@ public:
     template<typename OtherType>
     Numeric& operator=(const OtherType& rhs)
     {
-        *value *= static_cast<Type>(rhs);
+        *value = static_cast<Type>(rhs);
         return *this;
     }
 
@@ -223,24 +223,11 @@ struct HeapA
     A* a = nullptr;
 };
 
-void myFloatFreeFunct(Numeric<float>& ft)
-{
-    ft += 7.0f;
-}
-
-void myDoubleFreeFunct(Numeric<double>& dt)
-{
-    dt += 6.0;
-}
-
-void myIntFreeFunct(Numeric<int>& it)
-{
-    it += 5;
-}
-
 template<typename T>
-void myNumericFreeFunct(Numeric<T>& obj) {
-    obj += 7;
+void cube(Temporary<T>& _t)
+{
+    auto& v = _t;
+    v = v * v * v;
 }
 
 /*
@@ -324,9 +311,9 @@ int main()
     
     {
         using Type = decltype(f)::Type;
-        f.apply([&f](std::unique_ptr<Type>&value) -> decltype(f)&
+        f.apply([&f](Temporary<Type>& _t) -> decltype(f)&
                 {
-                    auto& v = *value;
+                    auto& v = _t;
                     v = v * v;
                     return f;
                 });
@@ -338,9 +325,9 @@ int main()
     
     {
         using Type = decltype(d)::Type;
-        d.apply([&d](std::unique_ptr<Type>&value) -> decltype(d)&
+        d.apply([&d](Temporary<Type>& _t) -> decltype(d)&
                 {
-                    auto& v = *value;
+                    auto& v = _t;
                     v = v * v;
                     return d;
                 });
@@ -352,9 +339,9 @@ int main()
     
     {
         using Type = decltype(i)::Type;
-        i.apply([&i](std::unique_ptr<Type>&value) -> decltype(i)&
+        i.apply([&i](Temporary<Type>& _t) -> decltype(i)&
                 {
-                    auto& v = *value;
+                    auto& v = _t;
                     v = v * v;
                     return i;
                 });
