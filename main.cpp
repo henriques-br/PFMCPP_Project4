@@ -59,21 +59,23 @@ int Temporary<NumericType>::counter = 0;
  3) You'll need to template your overloaded math operator functions in your Templated Class from Ch5 p04
     use static_cast to convert whatever type is passed in to your template's NumericType before performing the +=, -=, etc.  here's an example implementation:
  */
-// namespace example
-// {
-// template<typename NumericType>
-// struct Numeric
-// {
-//     //snip
-//     template<typename OtherType>
-//     Numeric& operator-=(const OtherType& o) 
-//     { 
-//         *value -= static_cast<NumericType>(o); 
-//         return *this; 
-//     }
-//     //snip
-// };
-// }
+namespace example
+{
+template<typename NumericType>
+struct Numeric
+{
+    //snip
+    template<typename OtherType>
+    Numeric& operator-=(const OtherType& o) 
+    { 
+        *value -= static_cast<NumericType>(o); 
+        return *this; 
+    }
+    //snip
+private:
+    std::unique_ptr<Temporary<NumericType>> value = nullptr;
+};
+}
 
 /*
  4) remove your specialized <double> template of your Numeric<T> class from the previous task (ch5 p04)
