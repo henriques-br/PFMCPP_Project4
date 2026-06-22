@@ -108,7 +108,7 @@ public:
         *value = static_cast<Type>(rhs);
         return *this;
     }
-
+    
     template<typename OtherType>
     Numeric& operator+=(const OtherType& rhs)
     {
@@ -170,7 +170,7 @@ public:
     template<typename Callable>
     Numeric& apply(Callable func)
     {
-        func(*value);
+        func(*this);
         return *this;
     }
 
@@ -226,9 +226,9 @@ struct HeapA
 };
 
 template<typename T>
-void cube(Temporary<T>& _t)
+void cube(Numeric<T>& value)
 {
-    auto& v = _t;
+    auto& v = value;
     v = v * v * v;
 }
 
@@ -313,23 +313,23 @@ int main()
     
     {
         using Type = decltype(f)::Type;
-        f.apply([&f](Temporary<Type>& _t) -> decltype(f)&
-                {
-                    auto& v = _t;
-                    v = v * v;
-                    return f;
-                });
+        f.apply([&f](Numeric<Type>& value) -> decltype(f)&
+        {
+            auto& v = value;
+            v = v * v;
+            return f;
+        });
         std::cout << "f squared: " << f << std::endl;
-        
+
         f.apply( cube<Type> );
         std::cout << "f cubed: " << f << std::endl;
     }
     
     {
         using Type = decltype(d)::Type;
-        d.apply([&d](Temporary<Type>& _t) -> decltype(d)&
+        d.apply([&d](Numeric<Type>& value) -> decltype(d)&
                 {
-                    auto& v = _t;
+                    auto& v = value;
                     v = v * v;
                     return d;
                 });
@@ -341,9 +341,9 @@ int main()
     
     {
         using Type = decltype(i)::Type;
-        i.apply([&i](Temporary<Type>& _t) -> decltype(i)&
+        i.apply([&i](Numeric<Type>& value) -> decltype(i)&
                 {
-                    auto& v = _t;
+                    auto& v = value;
                     v = v * v;
                     return i;
                 });
