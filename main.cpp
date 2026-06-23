@@ -97,43 +97,43 @@ template<typename T>
 struct Numeric
 {
 public:
-    using Type = T;
+    using Type = Temporary<T>;
 
-    explicit Numeric(Type v) : value(std::make_unique<Temporary<Type>>(v)) { }
+    explicit Numeric(T v) : value(std::make_unique<Type>(v)) { }
     ~Numeric() { }
 
     template<typename OtherType>
     Numeric& operator=(const OtherType& rhs)
     {
-        *value = static_cast<Type>(rhs);
+        *value = static_cast<T>(rhs);
         return *this;
     }
     
     template<typename OtherType>
     Numeric& operator+=(const OtherType& rhs)
     {
-        *value += static_cast<Type>(rhs);
+        *value += static_cast<T>(rhs);
         return *this;
     }
 
     template<typename OtherType>
     Numeric& operator-=(const OtherType& rhs)
     {
-        *value -= static_cast<Type>(rhs);
+        *value -= static_cast<T>(rhs);
         return *this;
     }
 
     template<typename OtherType>
     Numeric& operator*=(const OtherType& rhs)
     {
-        *value *= static_cast<Type>(rhs);
+        *value *= static_cast<T>(rhs);
         return *this;
     }
 
     template<typename OtherType>
     Numeric& operator/=(const OtherType& rhs)
     {
-       if constexpr (std::is_same<Type, int>::value)
+       if constexpr (std::is_same<T, int>::value)
         {
             //std::cout << "Class Type is int\n";
             if constexpr (std::is_same<OtherType, int>::value)
@@ -163,26 +163,29 @@ public:
     template<typename OtherType>
     Numeric& pow(const OtherType& exp)
     {
-        *value = std::pow(*value, static_cast<Type>(exp));
+        *value = std::pow(static_cast<T>(*value), static_cast<T>(exp));
         return *this;
     }
     
     template<typename Callable>
     Numeric& apply(Callable func)
     {
-        func(*this);
+        func(this->value);
         return *this;
     }
 
-    operator Temporary<Type>()
+    operator Temporary<T>()
     {
-        return Temporary<Type>(*value);
+        return Temporary<T>(*value);
     }
     
-    operator Type() const { return *value; }
+    operator T() const 
+    { 
+        return *value; 
+    }
 
 private:
-    std::unique_ptr<Temporary<Type>> value = nullptr;
+    std::unique_ptr<Type> value = nullptr;
 };
 
 struct Point
@@ -226,10 +229,9 @@ struct HeapA
 };
 
 template<typename T>
-void cube(Numeric<T>& value)
+void cube(std::unique_ptr<T>& value) 
 {
-    auto& v = value;
-    v = v * v * v;
+    *value = (*value) * (*value) * (*value);
 }
 
 /*
@@ -313,9 +315,9 @@ int main()
     
     {
         using Type = decltype(f)::Type;
-        f.apply([&f](Numeric<Type>& value) -> decltype(f)&
+        f.apply([&f](std::unique_ptr<Type>& value) -> decltype(f)&
         {
-            auto& v = value;
+            auto& v = *value;
             v = v * v;
             return f;
         });
@@ -327,9 +329,9 @@ int main()
     
     {
         using Type = decltype(d)::Type;
-        d.apply([&d](Numeric<Type>& value) -> decltype(d)&
+        d.apply([&d](std::unique_ptr<Type>& value) -> decltype(d)&
                 {
-                    auto& v = value;
+                    auto& v = *value;
                     v = v * v;
                     return d;
                 });
@@ -341,9 +343,9 @@ int main()
     
     {
         using Type = decltype(i)::Type;
-        i.apply([&i](Numeric<Type>& value) -> decltype(i)&
+        i.apply([&i](std::unique_ptr<Type>& value) -> decltype(i)&
                 {
-                    auto& v = value;
+                    auto& v = *value;
                     v = v * v;
                     return i;
                 });
