@@ -231,7 +231,8 @@ struct HeapA
 template<typename T>
 void cube(std::unique_ptr<T>& value) 
 {
-    *value = (*value) * (*value) * (*value);
+    auto& v = *value;
+    v = v * v * v;
 }
 
 /*
