@@ -87,6 +87,17 @@ struct Temporary
                   << counter++ << std::endl;
     }
 
+    //destructor
+    ~Temporary() {}
+    //move constructor
+    Temporary(Temporary&& other) : v(std::move(other.v)) { }
+    //move assignment
+    Temporary& operator=(Temporary&& other)
+    {
+        v = std::move(other.v);
+        return *this;
+    }
+
     operator NumericType() const 
     { 
         return v;
@@ -105,6 +116,7 @@ private:
 
 template<typename Type>
 int Temporary<Type>::counter = 0;
+
 template<typename T>
 struct Numeric
 {
@@ -114,12 +126,23 @@ public:
     explicit Numeric(T v) : value(std::make_unique<Type>(v)) { }
     ~Numeric() { }
 
+    //copy assignment
     template<typename OtherType>
     Numeric& operator=(const OtherType& rhs)
     {
         *value = static_cast<T>(rhs);
         return *this;
     }
+    //move assignment
+    Numeric& operator=(Numeric&& other) 
+    {
+        if (this != &other)
+            value = std::move(other.value);
+
+        return *this;
+    }
+    //move constructor
+    Numeric(Numeric&& other) : value(std::move(other.value)) { }
     
     template<typename OtherType>
     Numeric& operator+=(const OtherType& rhs)
@@ -168,7 +191,7 @@ public:
             std::cout << "warning: floating point division by zero!" << std::endl;
         }
         
-        *value /= static_cast<Type>(rhs);
+        *value /= static_cast<T>(rhs);
         return *this;
     }
 
@@ -344,5 +367,3 @@ int main()
 
  Wait for my code review.
  */
-
-
